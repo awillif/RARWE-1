@@ -1,12 +1,13 @@
-import Controller from '@ember/controller';
-import { empty, sort } from '@ember/object/computed';
+import Controller, { inject as controller } from '@ember/controller';
+import { empty, sort, alias } from '@ember/object/computed';
 import { computed } from '@ember/object';
 
 export default Controller.extend({
+  controls: controller('bands.band.controls'),
   isAddingSong: false,
   newSongTitle: '',
   isAddButtonDisabled: empty('newSongTitle'),
-  searchTerm: '',
+  searchTerm: alias('controls.searchTerm'),
   sortBy: 'ratingDesc',
   
   sortProperties: computed('sortBy', function() {
@@ -30,7 +31,6 @@ export default Controller.extend({
 
   queryParams: {
     sortBy: 'sort',
-    searchTerm: 's',
   },
 
   actions: {

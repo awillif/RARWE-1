@@ -6,7 +6,7 @@ module('Unit | Controller | bands/band/songs', function(hooks) {
 
   test('isAddButtonDisabled', function(assert) {
     
-    let controller = this.owner.lookup('controller:bands/band/songs');
+    let controller = this.owner.lookup('controller:bands/band/controls/songs');
 
     controller.set('newSongTitle', 'Belenos');
     assert.notOk(controller.get('isAddButtonDisabled'), 'The button is not disabled when there is a title');
