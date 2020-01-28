@@ -4,9 +4,11 @@ import {
 } from '@ember/service';
 export default Base.extend({
   ajax: service(),
-  // restore(data) {
-  // },
-  ajax: service(),
+
+  restore(data) {
+    return data;
+  },
+
   async authenticate(username, password) {
     let response = await this.ajax.post('/token', {
       headers: {
