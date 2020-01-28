@@ -1,4 +1,5 @@
 import { click, fillIn } from '@ember/test-helpers';
+import { authenticateSession } from 'ember-simple-auth/test-support';
 
 export async function createBand(name) {
   await click('[data-test-rr=new-band-label]');
@@ -12,3 +13,9 @@ export async function createSong(title) {
     await fillIn('[data-test-rr=new-song-input]', title);
     return click('[data-test-rr=new-song-button]');
 }
+
+export async function loginAs(email) {
+  return authenticateSession({ token: 'a.signed.jwt', userEmail:
+  email });
+  }
+  

@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { visit, click, fillIn, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirageTest from 'ember-cli-mirage/test-support/setup-mirage';
-import { createBand, createSong } from 'rarwe/tests/helpers/custom-helpers';
+import { loginAs, createBand, createSong } from 'rarwe/tests/helpers/custom-helpers';
 module('Acceptance | Bands', function(hooks) {
   setupApplicationTest(hooks);
   setupMirageTest(hooks);
@@ -10,6 +10,7 @@ module('Acceptance | Bands', function(hooks) {
   test('List bands', async function(assert) {
     this.server.create('band', { name: 'Radiohead' });
     this.server.create('band', { name: 'Long Distance Calling' });
+    await loginAs('dave@tcv.com');
     await visit('/');
     assert.dom('[data-test-rr=band-link]').exists({ count: 2 }, 'All band links are rendered');
     assert.dom('[data-test-rr=band-list-item]:first-child').hasText("Radiohead", 'The first band link contains the band name');
@@ -19,6 +20,7 @@ module('Acceptance | Bands', function(hooks) {
 
   test('Create a band', async function(assert) {
     this.server.create('band', { name: 'Royal Blood' });
+    await loginAs('dave@tcv.com');
     await visit('/');
     await createBand('Caspian');
     assert.dom('[data-test-rr=band-list-item]').exists({ count: 2 }, 'A new band link is rendered');
@@ -28,6 +30,7 @@ module('Acceptance | Bands', function(hooks) {
 
   test('Create a song', async function(assert) {
     this.server.create('band', { name: 'killers' });
+    await loginAs('dave@tcv.com');
     await visit('/bands/1/songs');
     await createSong('Blu');
     await fillIn('[data-test-rr=new-song-input]', 'Red');
@@ -44,6 +47,7 @@ module('Acceptance | Bands', function(hooks) {
     this.server.create('song', { title: 'Mind Eraser, No Chaser', rating: 4, band });
     this.server.create('song', { title: 'Spinning in Daffodils', rating: 5, band });
 
+    await loginAs('dave@tcv.com');
     await visit('/');
     await click('[data-test-rr=band-link]');
     assert.equal(currentURL(), '/bands/1/songs');
@@ -53,7 +57,7 @@ module('Acceptance | Bands', function(hooks) {
     await click('[data-test-rr=sort-by-rating-asc]');
     assert.equal(currentURL(), '/bands/1/songs?sort=ratingAsc');
     assert.dom('[data-test-rr=song-list-item]:first-child').hasText('Mind Eraser, No Chaser', 'ratingAsc: The first song is the one that comes last in the alphabet');
-    assert.dom('[data-test-rr=song-list-item]:last-child').hasText('Spinning in Daffodils', 'ratingAsc: The last song is the one that comes first in the alphabet');
+    assert.dom('[data-test-rr=song-list-item]:last-child').hasText('Spinning In Daffodils', 'ratingAsc: The last song is the one that comes first in the alphabet');
 
     await click('[data-test-rr=sort-by-rating-desc]');
     assert.equal(currentURL(), '/bands/1/songs?sort=ratingDesc');
@@ -62,13 +66,13 @@ module('Acceptance | Bands', function(hooks) {
 
     await click('[data-test-rr=sort-by-title-desc]');
     assert.equal(currentURL(), '/bands/1/songs?sort=titleDesc');
-    assert.dom('[data-test-rr=song-list-item]:first-child').hasText('Spinning in Daffodils', 'titleDesc: The first song is the one that comes last in the alphabet');
+    assert.dom('[data-test-rr=song-list-item]:first-child').hasText('Spinning In Daffodils', 'titleDesc: The first song is the one that comes last in the alphabet');
     assert.dom('[data-test-rr=song-list-item]:last-child').hasText('Elephants', 'titleDesc: The last song is the one that comes first in the alphabet');
 
     await click('[data-test-rr=sort-by-title-asc]');
     assert.equal(currentURL(), '/bands/1/songs?sort=titleAsc');
     assert.dom('[data-test-rr=song-list-item]:first-child').hasText('Elephants', 'titleAsc: The first song is the one that comes last in the alphabet');
-    assert.dom('[data-test-rr=song-list-item]:last-child').hasText('Spinning in Daffodils', 'titleAsc: The last song is the one that comes first in the alphabet');
+    assert.dom('[data-test-rr=song-list-item]:last-child').hasText('Spinning In Daffodils', 'titleAsc: The last song is the one that comes first in the alphabet');
   });
 
   test('Search songs', async function(assert) {
@@ -79,6 +83,7 @@ module('Acceptance | Bands', function(hooks) {
     this.server.create('song', { title: 'Spinning in Daffodils', rating: 5, band });
     this.server.create('song', { title: 'No One Loves Me & Neither Do I', rating: 5, band });
 
+    await loginAs('dave@tcv.com');
     await visit('/');
     await click('[data-test-rr=band-link]');
     await fillIn('[data-test-rr=search-box]', 'no');

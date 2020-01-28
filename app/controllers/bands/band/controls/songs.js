@@ -1,6 +1,7 @@
 import Controller, { inject as controller } from '@ember/controller';
 import { empty, sort, alias } from '@ember/object/computed';
 import { computed } from '@ember/object';
+import { capitalize } from 'rarwe/helpers/capitalize';
 
 export default Controller.extend({
   controls: controller('bands.band.controls'),
@@ -9,6 +10,11 @@ export default Controller.extend({
   isAddButtonDisabled: empty('newSongTitle'),
   searchTerm: alias('controls.searchTerm'),
   sortBy: 'ratingDesc',
+
+  newSongPlaceholder: computed('model.name', function() {
+    let bandName = this.model.name;
+    return `New ${capitalize(bandName)} song`;
+  }),
   
   sortProperties: computed('sortBy', function() {
     let options = {
