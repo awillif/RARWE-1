@@ -1,12 +1,12 @@
 import Response from 'ember-cli-mirage/response';
 export default function() {
-  // this.get('/bands');
-  this.get('/bands', function(schema, request) {
-    if (!request.requestHeaders['Authorization']) {
-      return new Response(401);
-    }
-    return schema.bands.all();
-  });
+  this.get('/bands');
+  // this.get('/bands', function(schema, request) {
+  //   if (!request.requestHeaders['Authorization']) {
+  //     return new Response(401);
+  //   }
+  //   return schema.bands.all();
+  // });
   this.get('/bands/:id');
   this.post('/bands');
   
