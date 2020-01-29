@@ -13,7 +13,7 @@
   </div>
 </div> --}}
 <ul class="rr-list">
-  {{#each sortedSongs as |song|}}
+  {{#each this.sortedSongs as |song|}}
     <li class="rr-list-item" data-test-rr="song-list-item">
       {{capitalize song.title}}
       <StarRating class="fr" @rating={{song.rating}} @onClick={{action "updateRating" song}} />

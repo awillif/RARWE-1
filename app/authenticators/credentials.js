@@ -5,7 +5,7 @@ import {
 export default Base.extend({
   ajax: service(),
 
-  restore(data) {
+  async restore(data) {
     return data;
   },
 

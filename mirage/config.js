@@ -16,7 +16,7 @@ export default function() {
   
   this.post('/users');
   
-  this.get('bands/:id/songs', function(schema, request) {
+  this.get('/bands/:id/songs', function(schema, request) {
     let id = request.params.id;
     return schema.songs.where({
       bandId: id
