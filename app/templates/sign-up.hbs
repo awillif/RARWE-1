@@ -1,6 +1,11 @@
 <div class="rr-form-container">
   <h3>Sign up to R&R</h3>
   <form onsubmit={{action "signUp"}}>
+    {{#if baseErrors.length}}
+      {{#each baseErrors as |error|}}
+        <div class="rr-error-message mb2" data-test-rr="error-message">{{error}}</div>
+      {{/each}}
+    {{/if}}
     <div class="rr-form-row-inline">
       {{#if showErrors.email}}
         <div class="rr-form-field-error" data-test-rr="email-error">{{v-get model "email" "message"}}</div>

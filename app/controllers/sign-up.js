@@ -1,9 +1,21 @@
 import Controller from '@ember/controller';
-import { inject as service } from '@ember/service';
-import { computed } from '@ember/object';
-
+import {
+  inject as service
+} from '@ember/service';
+import {
+  computed
+} from '@ember/object';
 export default Controller.extend({
   router: service(),
+  baseErrors: computed('_baseErrors', {
+    get() {
+      return this._baseErrors || [];
+    },
+    set(key, value) {
+      this.set('_baseErrors', value);
+      return this._baseErrors;
+    }
+  }),
   showErrors: computed('_showErrors', {
     get() {
       return this._showErrors || {
@@ -16,7 +28,6 @@ export default Controller.extend({
       return this._showErrors;
     }
   }),
-
   actions: {
     async signUp(event) {
       event.preventDefault();
