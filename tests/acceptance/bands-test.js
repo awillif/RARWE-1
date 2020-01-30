@@ -6,6 +6,12 @@ import { loginAs, createBand, createSong } from 'rarwe/tests/helpers/custom-help
 module('Acceptance | Bands', function(hooks) {
   setupApplicationTest(hooks);
   setupMirageTest(hooks);
+
+  test('Visit landing page without signing in', async function(assert) {
+    await visit('/');
+    assert.dom('[data-test-rr=form-header]').hasText('Log in to R&R');
+    assert.dom('[data-test-rr=user-email]').doesNotExist();
+  });
   
   test('List bands', async function(assert) {
     this.server.create('band', { name: 'Radiohead' });
@@ -15,7 +21,6 @@ module('Acceptance | Bands', function(hooks) {
     assert.dom('[data-test-rr=band-link]').exists({ count: 2 }, 'All band links are rendered');
     assert.dom('[data-test-rr=band-list-item]:first-child').hasText("Radiohead", 'The first band link contains the band name');
     assert.dom('[data-test-rr=band-list-item]:last-child').hasText("Long Distance Calling", 'The other band link contains the band name');
-
   });
 
   test('Create a band', async function(assert) {
