@@ -57,6 +57,7 @@ module('Acceptance | Bands', function(hooks) {
     await loginAs('dave@tcv.com');
     await visit('/');
     await click('[data-test-rr=band-link]');
+    await percySnapshot('Sort songs - Default sorting order');
     assert.equal(currentURL(), '/bands/1/songs');
     assert.dom('[data-test-rr=song-list-item]:first-child').hasText('Elephants', 'default: The first song is the highest ranked, first one in the alphabet');
     assert.dom('[data-test-rr=song-list-item]:last-child').hasText('New Fang', 'default: The last song is the lowest ranked, last one in the alphabet');
