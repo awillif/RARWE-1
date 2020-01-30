@@ -1,10 +1,7 @@
 import Controller from '@ember/controller';
-import {
-  inject as service
-} from '@ember/service';
-import {
-  computed
-} from '@ember/object';
+import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
+import extractServerError from 'rarwe/utils/extract-server-error';
 export default Controller.extend({
   router: service(),
   baseErrors: computed('_baseErrors', {
@@ -31,8 +28,13 @@ export default Controller.extend({
   actions: {
     async signUp(event) {
       event.preventDefault();
-      await this.model.save();
-      await this.router.transitionTo('login');
+      try {
+        await this.model.save();
+        await this.router.transitionTo('login');
+      } catch(response) {
+        let errorMessage = extractServerError(response.errors);
+        this.baseErrors.pushObject(errorMessage);
+      }
     }
   }
 });
